@@ -1,40 +1,47 @@
 #include <stdio.h>
 #include <string.h>
 
-// Definição da estrutura Pessoa
+// DefiniÃ§Ã£o da estrutura Carta
 typedef struct {
-    char nome[50];
-    int idade;
-} Pessoa;
+    char simbolo[10]; // Ex: "Copas", "Ouros", "Espadas", "Paus"
+    int valor;        // Ex: 1 (Ãs), 2, 3, ..., 10, 11 (Valete), 12 (Dama), 13 (Rei)
+} Carta;
 
 int main() {
-    // Lista de pessoas
-    Pessoa pessoas[] = {
-        {"João", 25},
-        {"Maria", 30},
-        {"Pedro", 20},
-        {"Ana", 35},
-        {"Carlos", 28}
+    // Array de estruturas Carta
+    Carta cartas[] = {
+        {"Copas", 10},
+        {"Ouros", 7},
+        {"Espadas", 1}, // Ãs
+        {"Paus", 12},   // Dama
+        {"Copas", 4},
+        {"Ouros", 11}   // Valete
     };
 
-    int n = 5; // Número de pessoas na lista
+    int tamanho = sizeof(cartas) / sizeof(cartas[0]); // Calcula o tamanho do array
+    int i, j, indice_menor;
+    Carta temp;
 
-    // Bubble Sort para ordenar do mais velho para o mais novo
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (pessoas[j].idade < pessoas[j + 1].idade) {
-                // Troca as posições
-                Pessoa temp = pessoas[j];
-                pessoas[j] = pessoas[j + 1];
-                pessoas[j + 1] = temp;
+    // Selection Sort para ordenar do menor valor para o maior
+    for (i = 0; i < tamanho - 1; i++) {
+        indice_menor = i; // Assume que o menor valor estÃ¡ na posiÃ§Ã£o atual
+        for (j = i + 1; j < tamanho; j++) {
+            if (cartas[j].valor < cartas[indice_menor].valor) {
+                indice_menor = j; // Atualiza o Ã­ndice do menor valor
             }
+        }
+        // Troca a posiÃ§Ã£o do menor valor encontrado com a posiÃ§Ã£o atual
+        if (indice_menor != i) {
+            temp = cartas[i];
+            cartas[i] = cartas[indice_menor];
+            cartas[indice_menor] = temp;
         }
     }
 
     // Mostra a lista ordenada
-    printf("Lista ordenada por idade (do mais velho para o mais novo):\n");
-    for (int i = 0; i < n; i++) {
-        printf("Nome: %s, Idade: %d\n", pessoas[i].nome, pessoas[i].idade);
+    printf("Lista ordenada por valor (do menor para o maior):\n");
+    for (i = 0; i < tamanho; i++) {
+        printf("SÃ­mbolo: %s, Valor: %d\n", cartas[i].simbolo, cartas[i].valor);
     }
 
     return 0;
